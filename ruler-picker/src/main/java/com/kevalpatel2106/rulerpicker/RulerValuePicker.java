@@ -301,7 +301,7 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
     }
 
     /**
-     * Scroll the ruler to the given value.
+     * Scroll the ruler to the given value with a delay of 400ms
      *
      * @param value Value to select. Value must be between {@link #getMinValue()} and {@link #getMaxValue()}.
      *              If the value is less than {@link #getMinValue()}, {@link #getMinValue()} will be
@@ -309,7 +309,20 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
      *              will be selected.
      */
     public void selectValue(final int value) {
-        mHorizontalScrollView.postDelayed(new Runnable() {
+        this.selectValue(value, 400);
+    }
+
+    /**
+     * Scroll the ruler to the given value.
+     *
+     * @param value Value to select. Value must be between {@link #getMinValue()} and {@link #getMaxValue()}.
+     *              If the value is less than {@link #getMinValue()}, {@link #getMinValue()} will be
+     *              selected.If the value is greater than {@link #getMaxValue()}, {@link #getMaxValue()}
+     *              will be selected.
+     * @param delayMillis Milliseconds to delay post
+     */
+    public void selectValue(final int value, final int delayMillis) {
+        final Runnable block = new Runnable() {
             @Override
             public void run() {
                 int valuesToScroll;
@@ -324,7 +337,13 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
                 mHorizontalScrollView.smoothScrollTo(
                         valuesToScroll * mRulerView.getIndicatorIntervalWidth(), 0);
             }
-        }, 400);
+        };
+
+        if (delayMillis > 0) {
+                mHorizontalScrollView.postDelayed(block, delayMillis);
+        } else {
+            block.run();
+        }
     }
 
     /**
