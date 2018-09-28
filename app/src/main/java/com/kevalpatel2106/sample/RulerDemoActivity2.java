@@ -18,6 +18,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.kevalpatel2106.rulerpicker.RulerValuePicker;
@@ -53,6 +54,9 @@ public class RulerDemoActivity2 extends AppCompatActivity {
             public void onIntermediateValueChange(final int selectedValue) {
                 heightPickerValueTv.setText(selectedValue + " cms");
             }
+
+            @Override
+            public void onScrollViewTouchEvent(MotionEvent ev) { }
         });
 
         //Set the weight picker
@@ -71,6 +75,9 @@ public class RulerDemoActivity2 extends AppCompatActivity {
                 weightPickerValueTv.setText(selectedValue + " kgs");
 
             }
+
+            @Override
+            public void onScrollViewTouchEvent(MotionEvent ev) { }
         });
     }
 

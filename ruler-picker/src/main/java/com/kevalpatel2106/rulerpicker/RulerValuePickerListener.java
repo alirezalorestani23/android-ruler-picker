@@ -13,6 +13,8 @@
 
 package com.kevalpatel2106.rulerpicker;
 
+import android.view.MotionEvent;
+
 /**
  * Created by Kevalpatel2106 on 29-Mar-18.
  * Listener to get the callback for {@link RulerValuePicker} events.
@@ -24,4 +26,6 @@ public interface RulerValuePickerListener {
     void onValueChange(int selectedValue);
 
     void onIntermediateValueChange(int selectedValue);
+
+    void onScrollViewTouchEvent(MotionEvent ev);
 }

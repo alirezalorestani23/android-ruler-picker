@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.widget.Toast
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.kevalpatel2106.rulerpicker.RulerValuePickerListener
@@ -214,6 +215,7 @@ class RulerDemoActivity : AppCompatActivity() {
         ruler_value_picker.selectValue(130)
 
         ruler_value_picker.setValuePickerListener(object : RulerValuePickerListener {
+
             override fun onValueChange(value: Int) {
                 Toast.makeText(this@RulerDemoActivity, "User height is :$value cms", Toast.LENGTH_LONG).show()
                 current_value_tv.text = "$value"
@@ -223,6 +225,8 @@ class RulerDemoActivity : AppCompatActivity() {
                 current_value_tv.text = "$selectedValue"
             }
 
+            override fun onScrollViewTouchEvent(ev: MotionEvent?) {
+            }
         })
     }
 
