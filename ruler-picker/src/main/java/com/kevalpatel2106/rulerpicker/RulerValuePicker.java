@@ -196,6 +196,10 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
                     setMinMaxValue(a.getInteger(R.styleable.RulerValuePicker_min_value, 0),
                             a.getInteger(R.styleable.RulerValuePicker_max_value, 100));
                 }
+
+                if (a.hasValue(R.styleable.RulerValuePicker_decimal_digits)) {
+                    setDecimalDigits(a.getInteger(R.styleable.RulerValuePicker_decimal_digits, 0));
+                }
             } finally {
                 a.recycle();
             }
@@ -316,10 +320,10 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
     /**
      * Scroll the ruler to the given value.
      *
-     * @param value Value to select. Value must be between {@link #getMinValue()} and {@link #getMaxValue()}.
-     *              If the value is less than {@link #getMinValue()}, {@link #getMinValue()} will be
-     *              selected.If the value is greater than {@link #getMaxValue()}, {@link #getMaxValue()}
-     *              will be selected.
+     * @param value       Value to select. Value must be between {@link #getMinValue()} and {@link #getMaxValue()}.
+     *                    If the value is less than {@link #getMinValue()}, {@link #getMinValue()} will be
+     *                    selected.If the value is greater than {@link #getMaxValue()}, {@link #getMaxValue()}
+     *                    will be selected.
      * @param delayMillis Milliseconds to delay post
      */
     public void selectValue(final int value, final int delayMillis) {
@@ -341,7 +345,7 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
         };
 
         if (delayMillis > 0) {
-                mHorizontalScrollView.postDelayed(block, delayMillis);
+            mHorizontalScrollView.postDelayed(block, delayMillis);
         } else {
             block.run();
         }
@@ -608,6 +612,15 @@ public final class RulerValuePicker extends FrameLayout implements ObservableHor
         mRulerView.setValueRange(minValue, maxValue);
         invalidate();
         selectValue(minValue);
+    }
+
+    /**
+     * Set number of decimal digits
+     *
+     * @param decimalDigits number of decimal digits
+     */
+    public void setDecimalDigits(final int decimalDigits) {
+        mRulerView.setDecimalDigits(decimalDigits);
     }
 
     /**

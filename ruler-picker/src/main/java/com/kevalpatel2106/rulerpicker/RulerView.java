@@ -28,6 +28,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 /**
  * Created by Keval Patel on 28 Mar 2018.
  * <p>
@@ -86,6 +90,11 @@ final class RulerView extends View {
      * @see #getMaxValue()
      */
     private int mMaxValue = 100 /* Default maximum value */;
+
+    /**
+     * Number of decimal digits
+     */
+    private int mDecimalDigits = 0;
 
     /**
      * Ratio of long indicator height to the ruler height. This value must be between 0 to 1. The
@@ -161,6 +170,24 @@ final class RulerView extends View {
     @Dimension
     private float mIndicatorWidthPx = 4f;
 
+    /**
+     * Decimal format symbols used for formatting
+     */
+    private DecimalFormatSymbols mDecimalFormatSymbols
+            = new DecimalFormatSymbols(Locale.getDefault());
+
+    /**
+     * Decimal format used for floating point formatting
+     */
+    private DecimalFormat mDecimalFormat =
+            new DecimalFormat("0", mDecimalFormatSymbols);
+
+    /**
+     * Decimal format factor
+     */
+    private int mDecimalFactor =
+            (int)Math.pow(10.0, mDecimalDigits);
+
     public RulerView(@NonNull final Context context) {
         super(context);
         parseAttr(null);
@@ -234,6 +261,10 @@ final class RulerView extends View {
                 }
                 if (a.hasValue(R.styleable.RulerView_max_value)) {
                     mMaxValue = a.getInteger(R.styleable.RulerView_max_value, 100);
+                }
+
+                if (a.hasValue(R.styleable.RulerView_decimal_digits)) {
+                    this.setDecimalDigits(a.getInteger(R.styleable.RulerView_decimal_digits, 0));
                 }
                 setValueRange(mMinValue, mMaxValue);
             } finally {
@@ -345,7 +376,8 @@ final class RulerView extends View {
      */
     private void drawValueText(@NonNull final Canvas canvas,
                                final int value) {
-        canvas.drawText(String.valueOf(value + mMinValue),
+
+        canvas.drawText(mDecimalFormat.format((value + mMinValue) / mDecimalFactor),
                 mIndicatorInterval * value,
                 mLongIndicatorHeight + mTextPaint.getTextSize(),
                 mTextPaint);
@@ -452,6 +484,14 @@ final class RulerView extends View {
     }
 
     /**
+     * @return Get the number of decimal digits
+     */
+    @CheckResult
+    int getDecimalDigits() {
+        return mDecimalDigits;
+    }
+
+    /**
      * Set the maximum value to display on the ruler. This will decide the range of values and number
      * of indicators that ruler will draw.
      *
@@ -464,6 +504,24 @@ final class RulerView extends View {
         mMinValue = minValue;
         mMaxValue = maxValue;
         invalidate();
+    }
+
+    /**
+     * Set decimal digits
+     *
+     * @param decimalDigits number of decimal digits
+     */
+    void setDecimalDigits(final int decimalDigits) {
+        mDecimalDigits = decimalDigits;
+
+        mDecimalFactor = (int)Math.pow(10.0, decimalDigits);
+
+        mDecimalFormat = new DecimalFormat(
+                String.format("0.%s",
+                        new String(new char[decimalDigits]).replace("\0", "0")
+                ),
+                mDecimalFormatSymbols
+        );
     }
 
     /**

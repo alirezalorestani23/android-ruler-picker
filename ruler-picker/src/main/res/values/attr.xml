@@ -15,6 +15,7 @@
 <resources>
     <attr name="min_value" format="integer" />
     <attr name="max_value" format="integer" />
+    <attr name="decimal_digits" format="integer" />
 
     <attr name="long_height_height_ratio" format="fraction" />
     <attr name="short_height_height_ratio" format="fraction" />
@@ -31,6 +32,7 @@
     <declare-styleable name="RulerView">
         <attr name="min_value" />
         <attr name="max_value" />
+        <attr name="decimal_digits" />
 
         <attr name="long_height_height_ratio" />
         <attr name="short_height_height_ratio" />
@@ -47,6 +49,7 @@
 
         <attr name="min_value" />
         <attr name="max_value" />
+        <attr name="decimal_digits" />
 
         <attr name="long_height_height_ratio" />
         <attr name="short_height_height_ratio" />
