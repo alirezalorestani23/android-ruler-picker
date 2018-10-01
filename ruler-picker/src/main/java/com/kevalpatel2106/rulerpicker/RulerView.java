@@ -377,7 +377,7 @@ final class RulerView extends View {
     private void drawValueText(@NonNull final Canvas canvas,
                                final int value) {
 
-        canvas.drawText(mDecimalFormat.format((value + mMinValue) / mDecimalFactor),
+        canvas.drawText(mDecimalFormat.format((double)(value + mMinValue) / mDecimalFactor),
                 mIndicatorInterval * value,
                 mLongIndicatorHeight + mTextPaint.getTextSize(),
                 mTextPaint);
